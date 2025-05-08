@@ -272,6 +272,7 @@
                     {% if category and category != 'all' %}
                         <input type="hidden" name="category" value="{{ category }}">{% endif %}
                     {% if has_salary == 'true' %}<input type="hidden" name="has_salary" value="true">{% endif %}
+                    {% if is_foreign_language == 'true' %}<input type="hidden" name="is_foreign_language" value="true">{% endif %}
                     {% for jtt_name in selected_job_time_types %}{% if jtt_name != 'all' %}
                         <input type="hidden" name="job_time_types" value="{{ jtt_name }}">{% endif %}{% endfor %}
                     {% if selected_min_salary and selected_min_salary != 'all' %}
@@ -393,6 +394,7 @@
                 {# End filter-group JUST for dropdowns #}
 
                 {# Salary Filter - Back OUTSIDE the dropdown group #}
+            <div class="checkboxes-together" style="display: flex;gap:20px;">
                 <div class="salary-filter-container">
                     {% url_params exclude='has_salary' as current_params %}
                     <input type="checkbox"
@@ -403,6 +405,16 @@
                     <label for="salary-filter-checkbox">მხოლოდ ხელფასიანი</label>
                 </div>
 
+            <div class="salary-filter-container">
+                    {% url_params exclude='is_foreign_language' as current_params %}
+                    <input type="checkbox"
+                           id="salary-filter-checkbox"
+                           class="salary-filter-checkbox"
+                           {% if is_foreign_language == 'true' %}checked{% endif %}
+                           onchange="location = '?{{ current_params }}&is_foreign_language=' + (this.checked ? 'true' : 'all');">
+                    <label for="salary-filter-checkbox">მხოლოდ უცხოენოვანი</label>
+                </div>
+            </div>
 
                 {# Job Time Type Filter Buttons - Back OUTSIDE the dropdown group #}
                 <div class="filter-buttons">

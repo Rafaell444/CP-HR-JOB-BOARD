@@ -57,6 +57,7 @@ def job_list(request):
     job_type_slug = request.GET.get('job_type', '')
     job_type = REVERSE_JOB_TYPE_SLUG_MAP.get(job_type_slug, '')
     has_salary = request.GET.get('has_salary', '')
+    is_foreign_language = request.GET.get('is_foreign_language', '')
     job_time_type_slugs = request.GET.getlist('job_time_types')
     page = int(request.GET.get('page', 1))
     per_page = 10
@@ -97,6 +98,9 @@ def job_list(request):
 
     if has_salary == 'true':
         jobs = jobs.filter(has_salary=True)
+
+    if is_foreign_language == 'true':
+        jobs = jobs.filter(is_foreign_language=True)
 
     if job_time_type_slugs and 'all' not in job_time_type_slugs:
         jobs = jobs.filter(job_time_types__slug__in=job_time_type_slugs).distinct()
@@ -143,6 +147,8 @@ def job_list(request):
     any_job_has_salary = Job.objects.filter(has_salary=True).exists()
     base_query_params = request.GET.copy()
 
+    any_job_is_foreign_language = Job.objects.filter(is_foreign_language=True).exists()
+
     # --- Render main page ---
     return render(request, "jobs/home.html", {
         "query": query,
@@ -171,6 +177,8 @@ def job_list(request):
         "selected_job_type_label": job_type or None,  # For Georgian UI
         "job_type_slug_map": JOB_TYPE_SLUG_MAP,
         "selected_min_salary_label": selected_min_salary_label,
+        "any_job_is_foreign_language": any_job_is_foreign_language,
+        "is_foreign_language": is_foreign_language,
     })
 
 

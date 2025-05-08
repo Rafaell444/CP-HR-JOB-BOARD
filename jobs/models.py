@@ -140,6 +140,7 @@ class Job(models.Model):
     vip_expiration_date = models.DateTimeField(blank=True, null=True)
     company_page_small_job_description = models.TextField(blank=True, null=True)
     has_salary = models.BooleanField(blank=True, default=False)
+    is_foreign_language = models.BooleanField(blank=True, default=False)
 
     salary_amount = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
     salary_currency = models.CharField(max_length=3, choices=[
